@@ -6,7 +6,7 @@
 MDNSResponder mdns;
 WiFiServer server(80);
 
-const char* ssid = "BUBBLES";
+const char* ssid = "KICKASS";
 String st;
 
 void setup() {
@@ -261,7 +261,8 @@ int mdns1(int webtype)
 
 void loop() {
   // put your main code here, to run repeatedly:
- Serial.println();
+  WiFi.mode(WIFI_STA);
+  Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -274,4 +275,5 @@ void loop() {
   }
   Serial.println("");
   Serial.println("WiFi connected");
+  Serial.println(WiFi.localIP());
 }
