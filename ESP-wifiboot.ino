@@ -253,6 +253,7 @@ int mdns1(int webtype)
   }
   client.print(s);
   Serial.println("Done with client");
+ 
   return(20);
 }
 
@@ -260,5 +261,17 @@ int mdns1(int webtype)
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+ Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  
+  WiFi.begin(qsid, qpass);
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
 }
