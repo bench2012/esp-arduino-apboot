@@ -173,14 +173,14 @@ int mdns1(int webtype)
         s += ipStr;
         s += "<p>";
         s += st;
-        s += "<form method='get' action='a'><label>SSID: </label><input name='ssid' length=32><input name='pass' length=64><input type='submit'></form>";
+        s += "<form method='get' action='a'><label>SSID: </label><input name='ssid' length=32><input name='pass' length=64><input name='apikey' length=18><input type='submit'></form>";
         s += "</html>\r\n\r\n";
         Serial.println("Sending 200");
       }
       else if ( req.startsWith("/a?ssid=") ) {
         // /a?ssid=blahhhh&pass=poooo
         Serial.println("clearing eeprom");
-        for (int i = 0; i < 96; ++i) { EEPROM.write(i, 0); }
+        for (int i = 0; i < 114; ++i) { EEPROM.write(i, 0); }
         String qsid; 
         qsid = req.substring(8,req.indexOf('&'));
         Serial.println(qsid);
@@ -188,6 +188,10 @@ int mdns1(int webtype)
         String qpass;
         qpass = req.substring(req.lastIndexOf('=')+1);
         Serial.println(qpass);
+        Serial.println("");
+        String qapikey;
+        qapikey = req.substring(req.lastIndexOf('=')+1);
+        Serial.println(qapikey);
         Serial.println("");
         
         Serial.println("writing eeprom ssid:");
@@ -203,6 +207,13 @@ int mdns1(int webtype)
             EEPROM.write(32+i, qpass[i]);
             Serial.print("Wrote: ");
             Serial.println(qpass[i]); 
+          }    
+           Serial.println("writing eeprom apikey:"); 
+        for (int i = 0; i < qapikey.length(); ++i)
+          {
+            EEPROM.write(18+i, qapikey[i]);
+            Serial.print("Wrote: ");
+            Serial.println(qapikey[i]); 
           }    
         EEPROM.commit();
         s = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE HTML>\r\n<html>Hello from ESP8266 ";
